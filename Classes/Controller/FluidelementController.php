@@ -54,6 +54,8 @@ class FluidelementController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionCon
     public function renderAction(){
         $this->view->assign('data',$this->data);
     }
-    
+    public function render() {
+
+    }
 }
 ?>

@@ -9,19 +9,24 @@ if (!defined('TYPO3_MODE')) {
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Extbase/Default', 'BeIpoa Extbase CE Default');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Extbase/Replacement', 'BeIpoa Extbase CEs Replacement');
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript/Fluidtemplate/Replacement', 'BeIpoa Fluidtemplate CEs Replacement');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:'.$_EXTKEY.'/Configuration/TSConfig/Page.ts">');
+
 
 /**
- * Fluid Content Element als Contentelement
+ * Register Custom Content Element
  */
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
-    array(
-        'Fluid Content Element',
-        'be_ipoa_fluidcontentelement'
-    ),
-    'CType'
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    'Subugoe.'.$_EXTKEY,
+    'Fluidcontentelement',
+    'Fluid content element'
 );
 
-$TCA['tt_content']['types']['be_ipoa_fluidcontentelement']['showitem'] = $TCA['tt_content']['types']['textpic']['showitem'];
+
+/**
+ * Prepare TCA for Custom Content Element
+ */
+\TYPO3\CMS\Core\Utility\GeneralUtility::loadTCA('tt_content');
+$TCA['tt_content']['types']['beipoa_fluidcontentelement']['showitem'] = $TCA['tt_content']['types']['textpic']['showitem'];
 
 
 if (TYPO3_MODE == 'BE' || TYPO3_MODE == 'FE' && isset($GLOBALS['BE_USER'])) {

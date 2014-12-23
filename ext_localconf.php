@@ -12,7 +12,9 @@ if(!defined('TYPO3_MODE')){
     array(
         'Fluidelement' => 'render',
     ),
-    array(),
+    array(
+
+    ),
     \TYPO3\CMS\Extbase\Utility\ExtensionUtility::PLUGIN_TYPE_CONTENT_ELEMENT
 );
 
@@ -43,7 +45,7 @@ tt_content.be_ipoa_fluidcontentelement {
     10 = < lib.stdheader
     20 = FLUIDTEMPLATE
     20 {
-        file = {$plugin.tx_beipoa.view.templateRootPath}Fluidcontentelement/Render.html
+        file = {$plugin.tx_beipoa.view.templateRootPath}Fluidelement/Render.html
         partialRootPath = {$plugin.tx_beipoa.view.partialRootPath}
         layoutRootPath = {$plugin.tx_beipoa.view.layoutRootPath}
     }
@@ -57,5 +59,11 @@ tt_content.be_ipoa_fluidcontentelement {
 );
 
 
+// adding some Configurations for all users
+// hide possibility to directly upload in Contentelements
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
+	options.enableBookmarks = 1
+	setup.override.edit_docModuleUpload = 0
+');
 ?>
 

@@ -1,4 +1,4 @@
-mod.SHARED.defaultLanguageFlag =
+mod.SHARED.defaultLanguageFlag = dede
 
 // Audiocontentelement zu "new content element wizzard" hinzufügen
 mod.wizards.newContentElement.wizardItems.common {
@@ -11,9 +11,6 @@ mod.wizards.newContentElement.wizardItems.common {
 	show := addToList(fluidcontentelement)
 }
 
-
-
-// Setzen der Benutzerrechte beim Anlegen von Seiten und Inhalt
 TCEMAIN {
 	permissions {
 		# Besitzergruppe (ID der Gruppe Page Access):
@@ -27,6 +24,21 @@ TCEMAIN {
 	}
 }
 
+// Standardmäßig sollen Clipboard, Localization und Editiermöglichkeiten im Backend angezeigt werden
+mod.web_list {
+	enableClipBoard = activated
+	enableDisplayBigControlPanel = activated
+	enableLocalizationView = activated
+
+	// verstecke Elemente die im "new record wizard" neu angelegt werden könnten
+	deniedNewTables = tx_devlog,backend_layout,sys_domain,tx_rtehtmlarea_acronym,sys_template,tx_scheduler_task_group,sys_note,sys_file_collection
+}
+
+[TS][usergroup = 1]
+// Setzen der Benutzerrechte beim Anlegen von Seiten und Inhalt
+// TODO: muss noch durch Variablen gesteuert werden
+
+
 // Verstecken unerwünschter Seiten- und Inhaltselemente
 TCEFORM {
 	// Entfernen des alternativen Text von image
@@ -38,12 +50,13 @@ TCEFORM {
 		media.disabled = 0
 		author.disabled = 0
 		doktype.removeItems = spacer
+
 	}
 
 	tt_content {
 		// Unerwünschte Seitentypen ausblenden (sowohl im "new content element wizard" als auch im Menü)
 		// sollen text, image,table, filelist, sitemap(menu), plugin und eigene Elemente bleiben
-		CType.removeItems = header,textpic,bullets,media,shortcut,html,div,multimedia,mailform,login,search
+		CType.removeItems = header,textpic,bullets,media,shortcut,html,div,multimedia,mailform,login,search,tx_beacl_acl
 
 		// Unerwünschte Auswahlmöglichkeiten bei Inhaltselementen entfernen
 		header_layout.removeItems = 1,2,3,4,5
@@ -84,15 +97,58 @@ TCEFORM {
 setup.override.edit_docModuleUpload = 0
 
 
-// Standardmäßig sollen Clipboard, Localization und Editiermöglichkeiten im Backend angezeigt werden
-mod.web_list {
-	enableClipBoard = 1
-	enableDisplayBigControlPanel = 1
-	enableLocalizationView = activated
-
-	// verstecke Elemente die im "new record wizard" neu angelegt werden könnten
-	deniedNewTables = tx_devlog,backend_layout,sys_domain,tx_rtehtmlarea_acronym,sys_template,tx_scheduler_task_group,sys_note,sys_file_collection
-}
-
 // Im "new content element wizard" keine Tabs anzeigen, es sind sowieso nicht so viele Elemente
 mod.wizards.newContentElement.renderMode = list
+
+
+// Configuration RTE
+RTE.default {
+	hideButtons(
+		class,
+		blockstylelabel,
+		blockstyle,
+		textstylelabel,
+		textstyle,
+		indent,
+		outdent,
+		textindicator,
+		table,
+		toggleborders,
+		tableproperties,
+		chMode,
+		rowproperties,
+		rowinsertabove,
+		rowinsertunder,
+		rowdelete,
+		rowsplit,
+		columninsertbefore,
+		columninsertafter,
+		columndelete,
+		columnsplit,
+		cellproperties,
+		cellinsertbefore,
+		cellinsertafter,
+		celldelete,
+		cellsplit,
+		cellmerge,
+		underline,
+		strikethrough
+	)
+	buttons.formatblock.removeItems (
+		address,
+		article,
+		aside,
+		div,
+		footer,
+		nav,
+		header,
+		h1,
+		h2,
+		h5,
+		h6,
+		pre,
+		section
+	)
+}
+
+[global][/TS]

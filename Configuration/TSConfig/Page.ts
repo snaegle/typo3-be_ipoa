@@ -31,10 +31,10 @@ mod.web_list {
 	enableLocalizationView = activated
 
 	// verstecke Elemente die im "new record wizard" neu angelegt werden könnten
-	deniedNewTables = tx_devlog,backend_layout,sys_domain,tx_rtehtmlarea_acronym,sys_template,tx_scheduler_task_group,sys_note,sys_file_collection
+	deniedNewTables = tx_devlog,backend_layout,sys_domain,tx_rtehtmlarea_acronym,sys_template,tx_scheduler_task_group,sys_note,sys_file_collection,tx_beacl_acl
 }
 
-[TS][usergroup = 1]
+[TS][usergroup = {$ids.reducedRightsEditors}]
 // Setzen der Benutzerrechte beim Anlegen von Seiten und Inhalt
 // TODO: muss noch durch Variablen gesteuert werden
 
